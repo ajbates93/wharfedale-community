@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") 
+}
+
+enum EventStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+}
+
+model Event {
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  published     Boolean       @default(false)
+  status        EventStatus 
+  organiser     String        @db.VarChar(255)
+  title         String        @db.VarChar(255)
+  date          DateTime
+  description   String        
+  extraDetail   String
+  location      String  
+  latitude      Float?
+  longitude     Float?
+  linkToTickets String
+  tags          String[]
+}
+
+model Organisation {
+  id                  Int           @id @default(autoincrement())
+  createdAt           DateTime      @default(now())
+  updatedAt           DateTime      @updatedAt
+  active              Boolean       @default(true)
+  name                String
+  summary             String?      
+  contactInformation  String?  
+  missionStatement    String?
+  logo                String?
+  website             String?
+  facebook            String?
+  twitter             String?
+}
